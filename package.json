@@ -1,0 +1,31 @@
+{
+  "name": "inventario-alliance-backend",
+  "version": "1.0.0",
+  "description": "The API was developed for the control of assets of Alliance Consultoria. Based on NodeJS with connection to the PostgreSQL database.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GarrubaLeo/inventario-alliance-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GarrubaLeo/inventario-alliance-backend/issues"
+  },
+  "homepage": "https://github.com/GarrubaLeo/inventario-alliance-backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "knex": "^0.21.1",
+    "pg": "^8.2.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
