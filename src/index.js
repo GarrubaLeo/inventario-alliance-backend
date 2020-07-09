@@ -3,7 +3,6 @@ const cors =  require('cors');
 const dotenv =  require('dotenv');
 
 const routes = require('./routes')
-const port = process.env.APP_PORT || 3333;
 
 const app = express();
 app.use(express.json());
@@ -17,6 +16,4 @@ app.use((error, request, response, next) => {
     response.json({ error: error.message });
 })
 
-app.listen(port, () =>
-    console.log(`Servidor rodando na porta ${port}`),
-);
+app.listen(process.env.APP_PORT || 3333);
