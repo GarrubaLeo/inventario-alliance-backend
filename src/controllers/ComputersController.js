@@ -5,9 +5,9 @@ module.exports = {
         const { codigo } = request.query;
 
         try {
-            if(codigo == null) {
+            if (codigo == null) {
                 const computers = await connection('computers')
-                .select('*');
+                    .select('*');
 
                 return response.status(200).json(computers);
             }
@@ -26,7 +26,10 @@ module.exports = {
     async create(request, response, next) {
         const {
             codigo,
-            dominio,
+            torre,
+            obs,
+            status,
+            usuario,
             ip,
             fabricante,
             modelo,
@@ -35,14 +38,16 @@ module.exports = {
             chaveWindows,
             versaoOffice,
             chaveOffice,
-            obs,
-            status
+
         } = request.body;
 
         try {
             await connection('computers').insert({
                 codigo,
-                dominio,
+                torre,
+                obs,
+                status,
+                usuario,
                 ip,
                 fabricante,
                 modelo,
@@ -51,8 +56,6 @@ module.exports = {
                 chaveWindows,
                 versaoOffice,
                 chaveOffice,
-                obs,
-                status
             });
 
             return response.status(201).json({ succes: true, message: `Ativo ${codigo} cadastrado!` });
@@ -65,7 +68,10 @@ module.exports = {
         const { codigo } = request.params;
 
         const {
-            dominio,
+            torre,
+            obs,
+            status,
+            usuario,
             ip,
             fabricante,
             modelo,
@@ -74,14 +80,15 @@ module.exports = {
             chaveWindows,
             versaoOffice,
             chaveOffice,
-            obs,
-            status
         } = request.body
 
         try {
             await connection('computers')
                 .update({
-                    dominio,
+                    torre,
+                    obs,
+                    status,
+                    usuario,
                     ip,
                     fabricante,
                     modelo,
@@ -90,12 +97,10 @@ module.exports = {
                     chaveWindows,
                     versaoOffice,
                     chaveOffice,
-                    obs,
-                    status
                 })
                 .where('codigo', codigo);
 
-            response.status(200).json({ succes: true, message: `Ativo ${codigo} atualizado!`});
+            response.status(200).json({ succes: true, message: `Ativo ${codigo} atualizado!` });
         } catch (error) {
             next(error);
         }
