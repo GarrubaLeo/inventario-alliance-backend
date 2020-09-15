@@ -1,6 +1,6 @@
 const connection = require('../database/connection');
 const bcrypt = require('bcrypt');
-
+const Login = require('../middleware/Login');
 
 module.exports = {
     async index (request, response, next) {
@@ -14,52 +14,27 @@ module.exports = {
     },
 
     async create(request, response, next) {
+        const {
+            username,
+            password,
+            name
+        } = request.body;
+
+        const encryptPassword = await bcrypt.hash(password, 10);
+
         try {
-            const { username, password, name } = request.body;
-            const passwordEncrypted = await encrypt(password);
-
-            await connection('users').insert({
+            const insertedData = {
+                name,
                 username,
-                password: passwordEncrypted,
-                name
-            })
+                password: encryptPassword
+            }
 
-            return response.status(201).json({ success: true, username, passwordEncrypted, name});
+            await connection('users').insert(insertedData);
+
+            return response.status(201).json(insertedData);
+
         } catch (error) {
-            next(error);
+            next(error)
         }
     },
-
-    async authentication (request, response, next) {
-        try {
-            const { username, password } = request.body;
-
-            const user = await connection('users')
-                .where('username', username)
-                .select('*');
-
-            if(user.length < 1) {
-                return response.status(401).json({ error: 'Falha na autenticação'})
-            } else {
-                bcrypt.compare(password, user[0].password, (err, result) => {
-                    if(err) {
-                        return response.status(401).json({ error: 'Falha na autenticação'})
-                    }
-                    if(result) {
-                        const name = user[0].name;
-                        return response.status(201).json({ name });
-                    }
-                })
-            }   
-
-            //if(username === user.username && password === bcrypt.hashSync(user.password, salt));
-        } catch (error) {
-            next(error);
-        }
-    }
-}
-
-function encrypt(password) {
-    var salt = bcrypt.genSaltSync(10);
-    return bcrypt.hashSync(password, salt);
 }
