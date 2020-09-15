@@ -26,7 +26,7 @@ module.exports = {
     async create(request, response, next) {
         const {
             codigo,
-            dominio,
+            torre,
             ip,
             fabricante,
             modelo,
@@ -36,13 +36,14 @@ module.exports = {
             versaoOffice,
             chaveOffice,
             obs,
-            status
+            status,
+            alocadoCom
         } = request.body;
 
         try {
             await connection('computers').insert({
                 codigo,
-                dominio,
+                torre,
                 ip,
                 fabricante,
                 modelo,
@@ -52,7 +53,8 @@ module.exports = {
                 versaoOffice,
                 chaveOffice,
                 obs,
-                status
+                status,
+                alocadoCom
             });
 
             return response.status(201).json({ succes: true, message: `Ativo ${codigo} cadastrado!` });
@@ -65,7 +67,7 @@ module.exports = {
         const { codigo } = request.params;
 
         const {
-            dominio,
+            torre,
             ip,
             fabricante,
             modelo,
@@ -75,13 +77,14 @@ module.exports = {
             versaoOffice,
             chaveOffice,
             obs,
-            status
+            status,
+            alocadoCom
         } = request.body
 
         try {
             await connection('computers')
                 .update({
-                    dominio,
+                    torre,
                     ip,
                     fabricante,
                     modelo,
@@ -91,7 +94,8 @@ module.exports = {
                     versaoOffice,
                     chaveOffice,
                     obs,
-                    status
+                    status,
+                    alocadoCom
                 })
                 .where('codigo', codigo);
 
