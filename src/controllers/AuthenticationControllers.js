@@ -22,12 +22,14 @@ module.exports = {
                 }
 
                 if (result) {
+                    const nameUser = user[0].name;
+                    
                     const token = jwt.sign({
-                        name: user[0].name,
+                        name: nameUser,
                         username: user[0].username
                     }, process.env.JWT_KEY, { expiresIn: '7d' });
 
-                    return response.status(200).json({ message: 'Autenticado com sucesso!', token })
+                    return response.status(200).json({ message: 'Autenticado com sucesso!', token, nameUser })
                 }
 
                 return response.status(401).json({ error: 'Falha na autenticação' })
