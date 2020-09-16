@@ -6,7 +6,7 @@ const ComputersController = require('./controllers/ComputersController')
 const UserConstrollers = require('./controllers/UserControllers')
 const AuthenticationController = require("./controllers/AuthenticationControllers")
 
-routes.get('/computers', ComputersController.index);
+routes.get('/computers', Login, ComputersController.index);
 routes.post('/computers/new', Login, ComputersController.create)
 routes.put('/computers/update/:codigo', Login, ComputersController.update)
 
